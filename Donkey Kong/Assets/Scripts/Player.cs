@@ -11,12 +11,49 @@ public class Player : MonoBehaviour
     public float moveSpeed = 1f;
     public float jumpStrength = 1f;
 
+    private SpriteRenderer spriteRenderer;
+    public Sprite[] runSprites;
+    public Sprite climbSprite;
+    private int spriteIndex;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         results = new Collider2D[4];
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
     }
+
+    private void OnEnable()
+    {
+        InvokeRepeating(nameof(AnimateSprite), 1f / 12f, 1f / 12f);
+    }
+
+    private void OnDisable()
+    {
+
+    }
+
+    private void AnimateSprite()
+    {
+        if (climbing)
+        {
+            spriteRenderer.sprite = climbSprite;
+        }
+        else if (direction.x != 0f)
+        {
+            spriteIndex++;
+
+            if(spriteIndex >= runSprites.Length)
+            {
+                spriteIndex = 0;
+            }
+
+            spriteRenderer.sprite = runSprites[spriteIndex];
+        }
+    }
+
 
     private void CheckCollision()
     {
