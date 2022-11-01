@@ -697,6 +697,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 343801031547478119, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3665837490780903086, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -744,6 +748,10 @@ PrefabInstance:
     - target: {fileID: 8243105246072980341, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_Name
       value: Mario
+      objectReference: {fileID: 0}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: moveSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
@@ -1225,9 +1233,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6031429168205133024, guid: a5b8f6b8cd8a4c94994c8d99e9c8f4f0, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7041275645656119054, guid: a5b8f6b8cd8a4c94994c8d99e9c8f4f0, type: 3}
       propertyPath: m_Name
       value: DonkeyKong
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843468041655255992, guid: a5b8f6b8cd8a4c94994c8d99e9c8f4f0, type: 3}
+      propertyPath: m_AutoTiling
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8412535424132563776, guid: a5b8f6b8cd8a4c94994c8d99e9c8f4f0, type: 3}
       propertyPath: m_RootOrder
