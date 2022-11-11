@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Sprite[] runSprites;
     public Sprite climbSprite;
+    public Sprite jumpSprite;
     private int spriteIndex;
 
     private void Awake()
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        InvokeRepeating(nameof(AnimateSprite), 1f / 12f, 1f / 12f);
+        InvokeRepeating(nameof(AnimateSprite), 1f / 6f, 1f / 6f);
     }
 
     private void OnDisable()
@@ -40,6 +41,10 @@ public class Player : MonoBehaviour
         if (climbing)
         {
             spriteRenderer.sprite = climbSprite;
+        }
+        else if (!grounded)
+        {
+            spriteRenderer.sprite = jumpSprite;
         }
         else if (direction.x != 0f)
         {

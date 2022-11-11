@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 624c885fe35c0f14f9ffe50a2bcae1c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d34a1acd31c44b445849adf5c562349d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -122,7 +122,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Size: {x: 1, y: 1}
   m_Direction: 0
 --- !u!114 &9033730185576839910
 MonoBehaviour:
@@ -139,8 +139,9 @@ MonoBehaviour:
   moveSpeed: 3
   jumpStrength: 4
   runSprites:
-  - {fileID: 21300000, guid: 624c885fe35c0f14f9ffe50a2bcae1c5, type: 3}
-  - {fileID: 21300000, guid: 3b1323bcdc46e90439f6594ff6353291, type: 3}
-  - {fileID: 21300000, guid: 624c885fe35c0f14f9ffe50a2bcae1c5, type: 3}
-  - {fileID: 21300000, guid: 93c14c82f6b03de498a745ee32a5c4c7, type: 3}
-  climbSprite: {fileID: 21300000, guid: e304f525944e327429cca31e4e99f3fb, type: 3}
+  - {fileID: 21300000, guid: d34a1acd31c44b445849adf5c562349d, type: 3}
+  - {fileID: 21300000, guid: 4d64d66a7080e6b468f0fef74a9eb252, type: 3}
+  - {fileID: 21300000, guid: 41fe4c93ab307e04e86e546f27bb1426, type: 3}
+  - {fileID: 21300000, guid: 76d5fb3be9dc77943802dc4644a9ed90, type: 3}
+  climbSprite: {fileID: 21300000, guid: 5d9f0b013853dcb4794caac44785a73f, type: 3}
+  jumpSprite: {fileID: 21300000, guid: a971565add3a27b47b15bdb991b082c3, type: 3}
