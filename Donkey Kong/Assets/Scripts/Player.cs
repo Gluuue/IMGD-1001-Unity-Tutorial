@@ -90,6 +90,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+
+
         CheckCollision();
 
         if(climbing)

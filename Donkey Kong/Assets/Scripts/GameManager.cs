@@ -3,13 +3,25 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private int lives;
-    private int score;
+    public int lives;
+    public int score;
+    public int highscore;
     private int level;
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
+        
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void ButtonStart()
+    {
         NewGame();
     }
 
@@ -62,7 +74,11 @@ public class GameManager : MonoBehaviour
 
         if (lives <= 0)
         {
-            NewGame();
+            if(score > highscore)
+            {
+                highscore = score;
+            }
+            LoadLevel(0);
         } else
         {
             LoadLevel(level);
