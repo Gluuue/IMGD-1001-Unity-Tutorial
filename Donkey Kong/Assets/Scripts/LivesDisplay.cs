@@ -34,7 +34,8 @@ public class LivesDisplay : MonoBehaviour
     {
         lives = GameManager.instance.lives;
         score = GameManager.instance.score;
-        highscore = GameManager.instance.highscore;
+        highscore = ScoreManager.instance.highscore;
+        
         //string livesS = lives.ToString;
         //Update Text
         livesdisplay_text.text = "LIVES  :  " + lives;

@@ -7,17 +7,33 @@ public class GameManager : MonoBehaviour
     public int score;
     public int highscore;
     private int level;
+    private int count;
     public static GameManager instance;
 
     private void Awake()
     {
-        instance = this;
+        //count = 0;
+        
+        highscore = 0;
+        DontDestroyOnLoad(gameObject);
+      
     }
 
     private void Start()
     {
+              
+        if (instance != null)
+        {
+            DestroyObject(this);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
+        //LoadLevel(1);
     }
 
     public void ButtonStart()
@@ -30,9 +46,16 @@ public class GameManager : MonoBehaviour
         lives = 3;
         score = 0;
 
-        LoadLevel(1);
+        LoadLevel(2);
 
     }
+
+    /*
+    public void LoadLevelPub(int index)
+    {
+        LoadLevel(index);
+    }
+    */
 
     private void LoadLevel(int index)
     {
@@ -63,7 +86,7 @@ public class GameManager : MonoBehaviour
             LoadLevel(nextLevel);
         } else
         {
-            LoadLevel(1);
+            LoadLevel(2);
         }
         
     }
@@ -74,11 +97,10 @@ public class GameManager : MonoBehaviour
 
         if (lives <= 0)
         {
-            if(score > highscore)
-            {
-                highscore = score;
-            }
-            LoadLevel(0);
+            lives = 3;
+            ScoreManager.instance.checkNewScore(score);
+            score = 0;
+            LoadLevel(1);
         } else
         {
             LoadLevel(level);
