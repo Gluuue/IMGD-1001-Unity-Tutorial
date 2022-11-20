@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PreLoad.unity
     guid: 9b6d6cf8e46bf6548b68a01564a3b382
   - enabled: 1
+    path: Assets/Scenes/Level-Test.unity
+    guid: c7c5a9e17d683cc4e99f6ce717924c85
+  - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: 614294ac53ed8954d8e629b6bc2f0d90
   - enabled: 1

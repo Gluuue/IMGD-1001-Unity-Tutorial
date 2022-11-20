@@ -41,12 +41,20 @@ public class GameManager : MonoBehaviour
         NewGame();
     }
 
+    public void ButtonTest()
+    {
+        lives = 3;
+        score = 0;
+
+        LoadLevel(1);
+    }
+
     private void NewGame()
     {
         lives = 3;
         score = 0;
 
-        LoadLevel(2);
+        LoadLevel(3);
 
     }
 
@@ -86,7 +94,7 @@ public class GameManager : MonoBehaviour
             LoadLevel(nextLevel);
         } else
         {
-            LoadLevel(2);
+            LoadLevel(3);
         }
         
     }
@@ -100,7 +108,7 @@ public class GameManager : MonoBehaviour
             lives = 3;
             ScoreManager.instance.checkNewScore(score);
             score = 0;
-            LoadLevel(1);
+            LoadLevel(2);
         } else
         {
             LoadLevel(level);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - Objective
+  - Upgrade
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Ground
   - Ladder
-  - 
+  - Upgrade
   - 
   - 
   - 

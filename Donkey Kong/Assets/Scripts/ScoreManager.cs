@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour
     {
         
         DontDestroyOnLoad(gameObject);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         //GameManager.instance.LoadLevelPub(1);
     }
 
