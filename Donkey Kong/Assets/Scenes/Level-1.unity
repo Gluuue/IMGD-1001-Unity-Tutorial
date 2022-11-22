@@ -242,12 +242,18 @@ MonoBehaviour:
   textmeshpro_livesdisplay: {fileID: 255357104}
   textmeshpro_scoredisplay: {fileID: 1318964384}
   textmeshpro_highscoredisplay: {fileID: 702707117}
+  textmeshpro_dashcountdisplay: {fileID: 0}
+  textmeshpro_dashcooldowndisplay: {fileID: 0}
   lives: 0
   score: 0
   highscore: 0
+  dashCount: 0
+  dashCooldown: 0
   livesdisplay_text: {fileID: 0}
   scoredisplay_text: {fileID: 0}
   highscoredisplay_text: {fileID: 0}
+  dashcountdisplay_text: {fileID: 0}
+  dashcooldowndisplay_text: {fileID: 0}
 --- !u!1001 &181801337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1241,6 +1247,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: holdingBarrel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: runSprites.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -1498,6 +1508,7 @@ MonoBehaviour:
   prefab: {fileID: 6290266914172697318, guid: c80297dd126355d4f805d9126e704bb0, type: 3}
   minTime: 2
   maxTime: 4
+  isActive: 1
 --- !u!4 &1134410331
 Transform:
   m_ObjectHideFlags: 0

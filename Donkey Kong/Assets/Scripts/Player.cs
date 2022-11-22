@@ -32,6 +32,19 @@ public class Player : MonoBehaviour
     public float dashingDuration;
     public float dashCooldown;
 
+    //New
+    //Barrel Jump Variables
+    public bool barrelJumpAvailable = false;
+    public static bool holdingBarrel = false;
+    public float barrelJumpModifier = 2.0f;
+    
+    //Wall Climb Variables
+    private bool onWall;
+
+
+    //End New
+
+
     //Input Management
     private Vector2 input;
 
@@ -60,7 +73,7 @@ public class Player : MonoBehaviour
         {
             spriteRenderer.sprite = climbSprite;
         }
-        else if (!grounded)
+        else if (!grounded && !onWall)
         {
             spriteRenderer.sprite = jumpSprite;
         }
@@ -86,31 +99,63 @@ public class Player : MonoBehaviour
         grounded = false;
         climbing = false;
 
-        Vector2 size = collider.bounds.size;
-        size.y += 0.1f;
-        size.x /= 2f;
+        //Grounded collider size
+        Vector2 sizeGrounded = collider.bounds.size;
+        sizeGrounded.y += 0.1f;
+        sizeGrounded.x /= 2f;
 
-        int amount = Physics2D.OverlapBoxNonAlloc(transform.position, size, 0f, results);
+        //WallClimb collider size
+        Vector2 sizeWallClimb = collider.bounds.size;
+        sizeWallClimb.y += 0.1f;
+        sizeWallClimb.x += 0.1f;
 
-        for (int i = 0; i < amount; i++)
-        {
-            GameObject hit = results[i].gameObject;
+        int amountGrounded = Physics2D.OverlapBoxNonAlloc(transform.position, sizeGrounded, 0f, results);
+        int amountWallClimb = Physics2D.OverlapBoxNonAlloc(transform.position, sizeWallClimb, 0f, results);
 
-            if (hit.layer == LayerMask.NameToLayer("Ground"))
+        
+        //Check grounded-type collisions
+        for (int i = 0; i < amountGrounded; i++){
+            GameObject hitGround = results[i].gameObject;
+
+            if (hitGround.layer == LayerMask.NameToLayer("Ladder")) 
             {
-                grounded = hit.transform.position.y < (transform.position.y - 0.5f);
+                if (Input.GetKey(KeyCode.W)) {
+                    climbing = true;
+                }
+            }
+            else if (hitGround.layer == LayerMask.NameToLayer("Ground")) {
+
+                //grounded if colliding with ground on lower half of character
+                grounded = hitGround.transform.position.y < (transform.position.y - 0.5f);
 
                 Physics2D.IgnoreCollision(collider, results[i], !grounded);
             }
-            else if (hit.layer == LayerMask.NameToLayer("Ladder")) 
-                {
-            climbing = true;
-                }
         }
+
+        //Check wall-type collisions
+        for (int n = 0; n < amountWallClimb; n++) {
+            GameObject hitWall = results[n].gameObject;
+
+            //Kinda janky but had to include the possibility of being grounded while checking this for loop
+            //Needs better implementation later -Zach
+            grounded = hitWall.transform.position.y < (transform.position.y - 0.5f);
+
+            if (hitWall.layer == LayerMask.NameToLayer("Wall")) {
+                onWall = true;
+                if (Input.GetKey(KeyCode.L)) {
+                    climbing = true;
+                }
+
+            } else {
+                onWall = false;
+            }
+        }
+
     }
 
     private void Update()
     {
+
         //Input Managing 2.0
         input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
@@ -123,25 +168,33 @@ public class Player : MonoBehaviour
             return;
         }
 
-        //Climb Input
+        //Climb Input / Jump / Fall
         if (climbing) 
             {
             direction.y = input.y * moveSpeed;
             }
-            else if (grounded && Input.GetButtonDown("Jump"))
+            else if (grounded && Input.GetButtonDown(buttonName: "Jump"))
             {
                 direction = Vector2.up * jumpStrength;
             }
+            //New
+            else if (grounded && Input.GetKeyDown(KeyCode.C) && holdingBarrel)
+            {
+                direction = Vector2.up * jumpStrength * barrelJumpModifier;
+                holdingBarrel = false;
+            }
+            //End New
+            //Default gravity
             else
             {
                 direction += Physics2D.gravity * Time.deltaTime;
             }
 
-            //Dash Input
-            if (Input.GetKeyDown(KeyCode.LeftShift) && numberOfDashes > 0f && input.x != 0 && dashAvailable)
-            {
-            StartCoroutine(Dash());
-            }
+        //Dash Input
+        if (Input.GetKeyDown(KeyCode.LeftShift) && numberOfDashes > 0f && input.x != 0 && dashAvailable)
+        {
+        StartCoroutine(Dash());
+        }
 
         //Move PLayer based on horizontal input
         direction.x = input.x * moveSpeed;
@@ -183,9 +236,21 @@ public class Player : MonoBehaviour
             FindObjectOfType<GameManager>().LevelComplete();
 
         } else if (collision.gameObject.CompareTag("Obstacle")) {
+            
+            //New
+                //Input.GetKey(KeyCode.P)
+            if (!holdingBarrel) {
+                holdingBarrel = true;
+                Destroy(collision.gameObject);
+            } else {
+                enabled = false;
+                FindObjectOfType<GameManager>().LevelFail();
+            }
+            //End New
 
-            enabled = false;
-            FindObjectOfType<GameManager>().LevelFail();
+            //Commented out for new code
+            //enabled = false;
+            //FindObjectOfType<GameManager>().LevelFail();
         } else if (collision.gameObject.CompareTag("Upgrade"))
         {
    
@@ -257,5 +322,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    //Barrel Jump Upgrade Methods
+    public void unlockBarrelJump()
+    {
+        barrelJumpAvailable = true; 
+    }
+
+
+
+
+
+
 }
