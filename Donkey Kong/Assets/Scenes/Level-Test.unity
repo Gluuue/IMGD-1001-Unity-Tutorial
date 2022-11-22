@@ -746,7 +746,7 @@ GameObject:
   - component: {fileID: 447549872}
   m_Layer: 0
   m_Name: barrelUpgrade
-  m_TagString: Untagged
+  m_TagString: Upgrade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1465,7 +1465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3665837490780903086, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.03
+      value: -8.45
       objectReference: {fileID: 0}
     - target: {fileID: 3665837490780903086, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1503,6 +1503,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6581522050736422427, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 19639576b09484449b317a985d68d033, type: 3}
     - target: {fileID: 8243105246072980341, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_Name
       value: Mario
@@ -1515,6 +1519,26 @@ PrefabInstance:
       propertyPath: dashingPower
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: runSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: runSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9c9e8445909e48145a20430a7ad6d9ff, type: 3}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: runSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8b8728a77586ce946ba8980c84ede20d, type: 3}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: runSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: effdb3bb7efda2c4c9760b9fec217785, type: 3}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: runSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: effdb3bb7efda2c4c9760b9fec217785, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
 --- !u!1001 &828909760

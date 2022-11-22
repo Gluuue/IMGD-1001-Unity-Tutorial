@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
         {
             spriteRenderer.sprite = climbSprite;
         }
-        else if (!grounded && !onWall)
+        else if (!grounded  && !onWall)
         {
             spriteRenderer.sprite = jumpSprite;
         }
@@ -170,25 +170,23 @@ public class Player : MonoBehaviour
 
         //Climb Input / Jump / Fall
         if (climbing) 
-            {
-            direction.y = input.y * moveSpeed;
-            }
-            else if (grounded && Input.GetButtonDown(buttonName: "Jump"))
-            {
-                direction = Vector2.up * jumpStrength;
-            }
-            //New
-            else if (grounded && Input.GetKeyDown(KeyCode.C) && holdingBarrel)
-            {
-                direction = Vector2.up * jumpStrength * barrelJumpModifier;
-                holdingBarrel = false;
-            }
-            //End New
-            //Default gravity
-            else
-            {
-                direction += Physics2D.gravity * Time.deltaTime;
-            }
+        {
+        direction.y = input.y * moveSpeed;
+        }
+        else if (grounded && Input.GetButtonDown(buttonName: "Jump"))
+        {
+            direction = Vector2.up * jumpStrength;
+        }
+        else if (grounded && Input.GetKeyDown(KeyCode.C) && holdingBarrel)
+        {
+            direction = Vector2.up * jumpStrength * barrelJumpModifier;
+            holdingBarrel = false;
+        }
+        //Default gravity
+        else
+        {
+            direction += Physics2D.gravity * Time.deltaTime;
+        }
 
         //Dash Input
         if (Input.GetKeyDown(KeyCode.LeftShift) && numberOfDashes > 0f && input.x != 0 && dashAvailable)
@@ -224,7 +222,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-
+        
         rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime);
     }
 
@@ -239,7 +237,7 @@ public class Player : MonoBehaviour
             
             //New
                 //Input.GetKey(KeyCode.P)
-            if (!holdingBarrel) {
+            if (!holdingBarrel && barrelJumpAvailable) {
                 holdingBarrel = true;
                 Destroy(collision.gameObject);
             } else {
@@ -251,10 +249,13 @@ public class Player : MonoBehaviour
             //Commented out for new code
             //enabled = false;
             //FindObjectOfType<GameManager>().LevelFail();
-        } else if (collision.gameObject.CompareTag("Upgrade"))
+        } 
+        
+        else if (collision.gameObject.CompareTag("Upgrade"))
         {
    
         }
+        
     }
 
     private IEnumerator Dash()

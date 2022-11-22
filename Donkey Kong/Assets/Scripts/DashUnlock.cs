@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DashUnlock : MonoBehaviour
 {
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")

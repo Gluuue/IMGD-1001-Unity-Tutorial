@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         Instantiate(prefab, transform.position, Quaternion.identity);
-        //If statement temporary
+        
         if (isActive) {
             Invoke(nameof(Spawn), Random.Range(minTime, maxTime));
         }
