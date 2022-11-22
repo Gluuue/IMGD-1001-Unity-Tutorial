@@ -79,7 +79,8 @@ public class Player : MonoBehaviour
         }
         else if (dashing)
         {
-            //spriteRenderer.sprite = jumpSprite;
+            //enable this line of code once we implement a dash sprite
+            //spriteRenderer.sprite = dashSprite;
         }
         else if (direction.x != 0f)
         {
@@ -103,7 +104,7 @@ public class Player : MonoBehaviour
         //Grounded collider size
         Vector2 sizeGrounded = collider.bounds.size;
         sizeGrounded.y += 0.1f;
-        sizeGrounded.x += 0.1f;
+        sizeGrounded.x /= 2f;
 
         //WallClimb collider size
         Vector2 sizeWallClimb = collider.bounds.size;
@@ -122,14 +123,8 @@ public class Player : MonoBehaviour
             
             
 
-            if (hitGround.layer == LayerMask.NameToLayer("Ladder")) 
-            {
-                //Debug.Log("Oh, a ladder!");
-                if (Input.GetKey(KeyCode.W)) {
-                    climbing = true;
-                }
-            }
-            else if (hitGround.layer == LayerMask.NameToLayer("Ground")) {
+            
+            if (hitGround.layer == LayerMask.NameToLayer("Ground")) {
 
                 //grounded if colliding with ground on lower half of character
                 grounded = hitGround.transform.position.y <= (transform.position.y - 0.5f);
@@ -137,7 +132,15 @@ public class Player : MonoBehaviour
 
                 Physics2D.IgnoreCollision(collider, results[i], !grounded);
             }
-            else if (hitGround.layer == LayerMask.NameToLayer("Wall")) {
+            else if (hitGround.layer == LayerMask.NameToLayer("Ladder"))
+            {
+                //Debug.Log("Oh, a ladder!");
+                //if (Input.GetKey(KeyCode.W)) {
+                climbing = true;
+                //}
+            }
+
+            if (hitGround.layer == LayerMask.NameToLayer("Wall")) {
                 onWall = true;
                 if (Input.GetKey(KeyCode.L)) {
                     climbing = true;
