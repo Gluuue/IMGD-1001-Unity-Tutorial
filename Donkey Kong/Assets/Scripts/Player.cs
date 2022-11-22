@@ -96,29 +96,35 @@ public class Player : MonoBehaviour
 
     private void CheckCollision()
     {
+        onWall = false;
         grounded = false;
         climbing = false;
 
         //Grounded collider size
         Vector2 sizeGrounded = collider.bounds.size;
         sizeGrounded.y += 0.1f;
-        sizeGrounded.x /= 2f;
+        sizeGrounded.x += 0.1f;
 
         //WallClimb collider size
         Vector2 sizeWallClimb = collider.bounds.size;
-        sizeWallClimb.y += 0.1f;
+        sizeWallClimb.y /= 2f;
         sizeWallClimb.x += 0.1f;
 
         int amountGrounded = Physics2D.OverlapBoxNonAlloc(transform.position, sizeGrounded, 0f, results);
         int amountWallClimb = Physics2D.OverlapBoxNonAlloc(transform.position, sizeWallClimb, 0f, results);
+        Debug.Log("Grounded:" + amountGrounded);
+        Debug.Log("Wall:" + amountWallClimb);
 
-        
         //Check grounded-type collisions
         for (int i = 0; i < amountGrounded; i++){
             GameObject hitGround = results[i].gameObject;
+            //Debug.Log("Grounded, grounded");
+            
+            
 
             if (hitGround.layer == LayerMask.NameToLayer("Ladder")) 
             {
+                //Debug.Log("Oh, a ladder!");
                 if (Input.GetKey(KeyCode.W)) {
                     climbing = true;
                 }
@@ -126,35 +132,51 @@ public class Player : MonoBehaviour
             else if (hitGround.layer == LayerMask.NameToLayer("Ground")) {
 
                 //grounded if colliding with ground on lower half of character
-                grounded = hitGround.transform.position.y < (transform.position.y - 0.5f);
+                grounded = hitGround.transform.position.y <= (transform.position.y - 0.5f);
+                Debug.Log("Grounded, grounded");
 
                 Physics2D.IgnoreCollision(collider, results[i], !grounded);
             }
+            else if (hitGround.layer == LayerMask.NameToLayer("Wall")) {
+                onWall = true;
+                if (Input.GetKey(KeyCode.L)) {
+                    climbing = true;
+                    grounded = false;
+                }
+
+            }
+            
         }
 
+        /*
         //Check wall-type collisions
         for (int n = 0; n < amountWallClimb; n++) {
             GameObject hitWall = results[n].gameObject;
 
             //Kinda janky but had to include the possibility of being grounded while checking this for loop
             //Needs better implementation later -Zach
-            grounded = hitWall.transform.position.y < (transform.position.y - 0.5f);
+            grounded = hitWall.transform.position.y <= (transform.position.y - 0.5f);
+            Debug.Log("Grounded, wall");
 
             if (hitWall.layer == LayerMask.NameToLayer("Wall")) {
                 onWall = true;
                 if (Input.GetKey(KeyCode.L)) {
                     climbing = true;
+                    grounded = false;
                 }
 
-            } else {
-                onWall = false;
             }
         }
+        */
 
     }
 
     private void Update()
     {
+
+        Debug.Log("Grounded" + grounded);
+        //Debug.Log("onWall" + onWall);
+        //Debug.Log("climbing" + climbing);
 
         //Input Managing 2.0
         input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
