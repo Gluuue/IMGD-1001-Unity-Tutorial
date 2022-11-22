@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
         //Grounded collider size
         Vector2 sizeGrounded = collider.bounds.size;
         sizeGrounded.y += 0.1f;
-        sizeGrounded.x /= 2f;
+        sizeGrounded.x += 0.1f;
 
         //WallClimb collider size
         Vector2 sizeWallClimb = collider.bounds.size;
