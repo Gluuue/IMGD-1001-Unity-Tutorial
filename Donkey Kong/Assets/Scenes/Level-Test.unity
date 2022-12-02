@@ -1335,6 +1335,10 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2299255740822668970, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3665837490780903086, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_RootOrder
       value: 5

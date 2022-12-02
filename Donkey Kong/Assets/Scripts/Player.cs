@@ -95,6 +95,65 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void CheckCollision() {
+
+        onWall = false;
+        grounded = false;
+        climbing = false;
+
+        //Grounded collider size & position (A small rectangle centered vertically on the bottommost pixel of the player collider, width equal to player, extending a little below the player)
+        Vector2 playerBottom = new Vector2 (transform.position.x, transform.position.y - 0.5f);
+        Vector2 sizeGrounded = collider.bounds.size;
+        sizeGrounded.y -= 0.8f;
+        Collider2D isGround = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Ground"));
+
+        //If the player is in contact with at least one object with a "ground" layer on the bottom
+        if (isGround != null) {
+            Debug.Log("Touching ground");
+            grounded = isGround.transform.position.y <= (transform.position.y - 0.5f);
+        }
+
+        //Ceiling collider size & position (A small rectangle centered vertically on the topmost pixel of the player collider, width equal to player, extending a little above the player)
+        Vector2 playerTop = new Vector2 (transform.position.x, transform.position.y + 0.5f);
+        Vector2 sizeCeiling = collider.bounds.size;
+        sizeCeiling.y -= 0.8f;
+        Collider2D isCeiling = Physics2D.OverlapBox(playerTop, sizeCeiling, 0f, LayerMask.GetMask("Ground"));
+
+        //If the player is in contact with at least one object with a "ground" layer on the top
+        if (isCeiling != null) {
+            Debug.Log("Touching Ceiling");
+            Physics2D.IgnoreCollision(collider, isCeiling, !grounded); 
+        }
+
+        //Ladder collider size & position (A small rectangle centered on the player collider, width half of player, extends vertically matching collider)
+        Vector2 playerCenter = transform.position;
+        Vector2 sizeLadder = collider.bounds.size;
+        sizeLadder.x /= 2.0f;
+        sizeLadder.y += 0.1f;
+        Collider2D isLadder = Physics2D.OverlapBox(playerCenter, sizeLadder, 0f, LayerMask.GetMask("Ladder"));
+
+        //If the player is in contact with at least one object with a "Ladder" layer
+        if (isLadder != null) {
+            Debug.Log("Touching Ladder");
+            climbing = true; 
+        }
+
+        //Wall collider size & position (A small rectangle centered on the player collider, width slightly wider than player, height about half of player)
+        Vector2 playerSides = new Vector2 (transform.position.x, transform.position.y + 0.5f);
+        Vector2 sizeWall = collider.bounds.size;
+        sizeWall.x += 0.1f;
+        sizeCeiling.y /= 2.0f;
+        Collider2D isWall = Physics2D.OverlapBox(playerSides, sizeWall, 0f, LayerMask.GetMask("Wall"));
+
+        //If the player is in contact with at least one object with a "ground" layer on the top
+        if (isWall != null && Input.GetKey(KeyCode.L)) {
+            Debug.Log("Touching Wall");
+            climbing = true; 
+        }
+
+    }
+
+    /*
     private void CheckCollision()
     {
         onWall = false;
@@ -116,13 +175,13 @@ public class Player : MonoBehaviour
         //Debug.Log("Grounded:" + amountGrounded);
         //Debug.Log("Wall:" + amountWallClimb);
 
+        Physics2D.OverlapBox();
+
         //Check grounded-type collisions
         for (int i = 0; i < amountGrounded; i++){
             GameObject hitGround = results[i].gameObject;
             Debug.Log(hitGround.layer);
             Debug.Log(hitGround);
-            
-            
 
             
             if (hitGround.layer == LayerMask.NameToLayer("Ground")) {
@@ -152,6 +211,7 @@ public class Player : MonoBehaviour
         }
 
     }
+    */
 
     private void Update()
     {
