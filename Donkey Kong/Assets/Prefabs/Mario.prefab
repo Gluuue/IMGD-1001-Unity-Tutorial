@@ -151,3 +151,5 @@ MonoBehaviour:
   dashingPower: 8
   dashingDuration: 0.3
   dashCooldown: 1.5
+  barrelJumpAvailable: 0
+  barrelJumpModifier: 2

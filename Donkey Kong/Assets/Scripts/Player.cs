@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public float dashingPower;
     public float dashingDuration;
     public float dashCooldown;
+    //public Vector2 dashDirection;
 
     //New
     //Barrel Jump Variables
@@ -109,7 +110,7 @@ public class Player : MonoBehaviour
 
         //If the player is in contact with at least one object with a "ground" layer on the bottom
         if (isGround != null) {
-            Debug.Log("Touching ground");
+            //Debug.Log("Touching ground");
             grounded = isGround.transform.position.y <= (transform.position.y - 0.5f);
         }
 
@@ -121,7 +122,7 @@ public class Player : MonoBehaviour
 
         //If the player is in contact with at least one object with a "ground" layer on the top
         if (isCeiling != null) {
-            Debug.Log("Touching Ceiling");
+            //Debug.Log("Touching Ceiling");
             Physics2D.IgnoreCollision(collider, isCeiling, !grounded); 
         }
 
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
 
         //If the player is in contact with at least one object with a "Ladder" layer
         if (isLadder != null) {
-            Debug.Log("Touching Ladder");
+            //Debug.Log("Touching Ladder");
             climbing = true; 
         }
 
@@ -147,7 +148,7 @@ public class Player : MonoBehaviour
 
         //If the player is in contact with at least one object with a "ground" layer on the top
         if (isWall != null && Input.GetKey(KeyCode.L)) {
-            Debug.Log("Touching Wall");
+            //Debug.Log("Touching Wall");
             climbing = true; 
         }
 
@@ -216,7 +217,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
-        Debug.Log("Grounded" + grounded);
+        //Debug.Log("Grounded" + grounded);
         //Debug.Log("onWall" + onWall);
         //Debug.Log("climbing" + climbing);
 
@@ -393,9 +394,17 @@ public class Player : MonoBehaviour
         barrelJumpAvailable = true; 
     }
 
+    public bool checkIfDashing() {
+        return dashing;
+    }
 
+    public bool checkIfGrounded() {
+        return grounded;
+    }
 
-
+    public float inputDirection() {
+        return direction.x;
+    }
 
 
 }
