@@ -173,6 +173,23 @@ public class Player : MonoBehaviour
         } else {
             moveSpeedModified = moveSpeedDefault;
         }
+
+        //Chcecking only the top/sides for spikes. Don't want the bottom to kill players.
+        Collider2D spikesBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Spikes"));
+         if (spikesBottom != null) {
+            enabled = false;
+            FindObjectOfType<GameManager>().LevelFail();
+         }
+
+        Collider2D waterBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+        Collider2D waterTop = Physics2D.OverlapBox(playerTop, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+        Collider2D waterSides = Physics2D.OverlapBox(playerSides, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+
+        if (waterBottom != null || waterTop != null || waterSides != null) {
+            enabled = false;
+            FindObjectOfType<GameManager>().LevelFail();
+        }
+
     }
 
 
