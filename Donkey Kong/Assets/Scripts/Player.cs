@@ -256,6 +256,7 @@ public class Player : MonoBehaviour
         rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime);
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Objective")) {
@@ -265,8 +266,7 @@ public class Player : MonoBehaviour
 
         } else if (collision.gameObject.CompareTag("Obstacle")) {
             
-            //New
-                //Input.GetKey(KeyCode.P)
+            
             if (!holdingBarrel && barrelJumpAvailable) {
                 holdingBarrel = true;
                 Destroy(collision.gameObject);
@@ -274,19 +274,15 @@ public class Player : MonoBehaviour
                 enabled = false;
                 FindObjectOfType<GameManager>().LevelFail();
             }
-            //End New
+        } else if (collision.gameObject.CompareTag("Upgrade")) {
 
-            //Commented out for new code
-            //enabled = false;
-            //FindObjectOfType<GameManager>().LevelFail();
-        } 
-        
-        else if (collision.gameObject.CompareTag("Upgrade"))
-        {
-   
+        } else if (collision.gameObject.CompareTag("Projectile")) {
+            enabled = false;
+            FindObjectOfType<GameManager>().LevelFail();
         }
         
     }
+
 
     private IEnumerator Dash()
     {
