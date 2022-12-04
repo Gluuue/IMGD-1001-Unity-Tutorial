@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
     private Vector2 direction;
     private bool grounded;
     private bool climbing;
-    public float moveSpeed = 1f;
+    public float moveSpeedDefault = 3.0f;
+    private float moveSpeedModified;
     public float jumpStrength = 1f;
     
 
@@ -23,7 +24,7 @@ public class Player : MonoBehaviour
     public Sprite dashSprite;
     private int spriteIndex;
 
-    //Dash Variables
+    //Dash Fields
     public bool dashAvailable = false;
     public float numberOfDashes;
     private float maxNumOfDashes;
@@ -33,17 +34,17 @@ public class Player : MonoBehaviour
     public float dashCooldown;
     //public Vector2 dashDirection;
 
-    //New
-    //Barrel Jump Variables
+    //Barrel Jump Fields
     public bool barrelJumpAvailable = false;
     public static bool holdingBarrel = false;
     public float barrelJumpModifier = 2.0f;
     
-    //Wall Climb Variables
+    //Wall Climb Fields
     private bool onWall;
 
-
-    //End New
+    //Mud Fields
+    private bool muddy;
+    
 
 
     //Input Management
@@ -53,7 +54,8 @@ public class Player : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        results = new Collider2D[4];
+        //Should no longer need this array
+        //results = new Collider2D[4];
         spriteRenderer = GetComponent<SpriteRenderer>();
         instance = this;
     }
@@ -101,30 +103,36 @@ public class Player : MonoBehaviour
         onWall = false;
         grounded = false;
         climbing = false;
+        muddy = false;
 
         //Grounded collider size & position (A small rectangle centered vertically on the bottommost pixel of the player collider, width equal to player, extending a little below the player)
         Vector2 playerBottom = new Vector2 (transform.position.x, transform.position.y - 0.5f);
         Vector2 sizeGrounded = collider.bounds.size;
         sizeGrounded.y -= 0.8f;
-        Collider2D isGround = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Ground"));
+        Collider2D isGround = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Ground", "Mud"));
 
         //If the player is in contact with at least one object with a "ground" layer on the bottom
         if (isGround != null) {
             //Debug.Log("Touching ground");
-            grounded = isGround.transform.position.y <= (transform.position.y - 0.5f);
+            //isGround.transform.position.y <= (transform.position.y - 0.5f)
+            grounded = true;
         }
 
+        
         //Ceiling collider size & position (A small rectangle centered vertically on the topmost pixel of the player collider, width equal to player, extending a little above the player)
         Vector2 playerTop = new Vector2 (transform.position.x, transform.position.y + 0.5f);
         Vector2 sizeCeiling = collider.bounds.size;
         sizeCeiling.y -= 0.8f;
         Collider2D isCeiling = Physics2D.OverlapBox(playerTop, sizeCeiling, 0f, LayerMask.GetMask("Ground"));
 
+
+        /*
         //If the player is in contact with at least one object with a "ground" layer on the top
         if (isCeiling != null) {
             //Debug.Log("Touching Ceiling");
-            Physics2D.IgnoreCollision(collider, isCeiling, !grounded); 
+
         }
+        */
 
         //Ladder collider size & position (A small rectangle centered on the player collider, width half of player, extends vertically matching collider)
         Vector2 playerCenter = transform.position;
@@ -139,11 +147,12 @@ public class Player : MonoBehaviour
             climbing = true; 
         }
 
+
         //Wall collider size & position (A small rectangle centered on the player collider, width slightly wider than player, height about half of player)
         Vector2 playerSides = new Vector2 (transform.position.x, transform.position.y + 0.5f);
         Vector2 sizeWall = collider.bounds.size;
         sizeWall.x += 0.1f;
-        sizeCeiling.y /= 2.0f;
+        sizeWall.y -= 0.05f;
         Collider2D isWall = Physics2D.OverlapBox(playerSides, sizeWall, 0f, LayerMask.GetMask("Wall"));
 
         //If the player is in contact with at least one object with a "ground" layer on the top
@@ -152,74 +161,28 @@ public class Player : MonoBehaviour
             climbing = true; 
         }
 
-    }
+        //Check all four directions for mud
+        Collider2D isMuddyBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
+        Collider2D isMuddyTop = Physics2D.OverlapBox(playerTop, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
+        Collider2D isMuddySides = Physics2D.OverlapBox(playerSides, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
 
-    /*
-    private void CheckCollision()
-    {
-        onWall = false;
-        grounded = false;
-        climbing = false;
-
-        //Grounded collider size
-        Vector2 sizeGrounded = collider.bounds.size;
-        sizeGrounded.y += 0.1f;
-        sizeGrounded.x += 0.1f;
-
-        //WallClimb collider size
-        Vector2 sizeWallClimb = collider.bounds.size;
-        sizeWallClimb.y /= 2f;
-        sizeWallClimb.x += 0.1f;
-
-        int amountGrounded = Physics2D.OverlapBoxNonAlloc(transform.position, sizeGrounded, 0f, results);
-        int amountWallClimb = Physics2D.OverlapBoxNonAlloc(transform.position, sizeWallClimb, 0f, results);
-        //Debug.Log("Grounded:" + amountGrounded);
-        //Debug.Log("Wall:" + amountWallClimb);
-
-        Physics2D.OverlapBox();
-
-        //Check grounded-type collisions
-        for (int i = 0; i < amountGrounded; i++){
-            GameObject hitGround = results[i].gameObject;
-            Debug.Log(hitGround.layer);
-            Debug.Log(hitGround);
-
-            
-            if (hitGround.layer == LayerMask.NameToLayer("Ground")) {
-
-                //grounded if colliding with ground on lower half of character
-                Debug.Log(hitGround.transform.position.y);
-                Debug.Log(transform.position.y - 0.5f);
-                grounded = hitGround.transform.position.y <= (transform.position.y - 0.5f);
-                //Debug.Log("Grounded, grounded");
-
-                Physics2D.IgnoreCollision(collider, results[i], !grounded);
-            }
-            else if (hitGround.layer == LayerMask.NameToLayer("Ladder")) {
-                //Debug.Log("Oh, a ladder!");
-                //if (Input.GetKey(KeyCode.W)) {
-                climbing = true;
-                //}
-            } 
-            else if (hitGround.layer == LayerMask.NameToLayer("Wall")) {
-                onWall = true;
-                if (Input.GetKey(KeyCode.L)) {
-                    climbing = true;
-                }
-
-            }
-            
+        if (isMuddyBottom != null || isMuddyTop != null || isMuddySides != null) {
+            //Debug.Log("Touching mud");
+            muddy = true;
+            moveSpeedModified = moveSpeedDefault * 0.7f;
+        } else {
+            moveSpeedModified = moveSpeedDefault;
         }
-
     }
-    */
+
 
     private void Update()
     {
 
-        //Debug.Log("Grounded" + grounded);
+        Debug.Log("Grounded" + grounded);
         //Debug.Log("onWall" + onWall);
         //Debug.Log("climbing" + climbing);
+        Debug.Log("Mud" + muddy);
 
         //Input Managing 2.0
         input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
@@ -236,9 +199,9 @@ public class Player : MonoBehaviour
         //Climb Input / Jump / Fall
         if (climbing) 
         {
-        direction.y = input.y * moveSpeed;
+        direction.y = input.y * moveSpeedModified;
         }
-        else if (grounded && Input.GetButtonDown(buttonName: "Jump"))
+        else if (grounded && Input.GetButtonDown(buttonName: "Jump") && !muddy)
         {
             direction = Vector2.up * jumpStrength;
         }
@@ -260,7 +223,7 @@ public class Player : MonoBehaviour
         }
 
         //Move PLayer based on horizontal input
-        direction.x = input.x * moveSpeed;
+        direction.x = input.x * moveSpeedModified;
 
         //Reset gravity on ground??
         if (grounded)
@@ -286,6 +249,8 @@ public class Player : MonoBehaviour
         {
             return;
         }
+
+        Debug.Log(direction);
 
         
         rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime);
