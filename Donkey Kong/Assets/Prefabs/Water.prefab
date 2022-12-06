@@ -19,6 +19,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 3396469297917324871, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396469297917324871, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396469297917324871, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3728709312087376262, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -63,6 +75,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6953428206382524155, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51e6b60fd8204314c85255424b626879, type: 3}
     - target: {fileID: 6953428206382524155, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_Color.b
       value: 1

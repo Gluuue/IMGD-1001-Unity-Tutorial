@@ -11,12 +11,8 @@ public class Projectile : MonoBehaviour
         this.transform.position += this.direction * this.speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (this.destroyed != null) {
-            this.destroyed.Invoke();
-        }
-        
+    public void OnTriggerEnter2D(Collider2D other)
+    { 
         Destroy(this.gameObject);
     }
 

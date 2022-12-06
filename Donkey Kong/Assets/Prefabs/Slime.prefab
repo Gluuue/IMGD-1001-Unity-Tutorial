@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2299255740822668970}
   - component: {fileID: 9033730185576839910}
   m_Layer: 0
-  m_Name: Mario
+  m_Name: Slime
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d34a1acd31c44b445849adf5c562349d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b8728a77586ce946ba8980c84ede20d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &2299255740822668970
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.15}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
 --- !u!114 &9033730185576839910
@@ -136,19 +136,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2320f6d2853862b4aaf627af8a6bf0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeedDefault: 3
   jumpStrength: 4
   runSprites:
-  - {fileID: 21300000, guid: d34a1acd31c44b445849adf5c562349d, type: 3}
-  - {fileID: 21300000, guid: 4d64d66a7080e6b468f0fef74a9eb252, type: 3}
-  - {fileID: 21300000, guid: 41fe4c93ab307e04e86e546f27bb1426, type: 3}
-  - {fileID: 21300000, guid: 76d5fb3be9dc77943802dc4644a9ed90, type: 3}
-  climbSprite: {fileID: 21300000, guid: 5d9f0b013853dcb4794caac44785a73f, type: 3}
-  jumpSprite: {fileID: 21300000, guid: a971565add3a27b47b15bdb991b082c3, type: 3}
-  dashSprite: {fileID: 0}
+  - {fileID: 21300000, guid: 9c9e8445909e48145a20430a7ad6d9ff, type: 3}
+  - {fileID: 21300000, guid: 8b8728a77586ce946ba8980c84ede20d, type: 3}
+  - {fileID: 21300000, guid: effdb3bb7efda2c4c9760b9fec217785, type: 3}
+  jumpSprites:
+  - {fileID: 21300000, guid: 1c6d6cea1c3eb11468023a949f95ac65, type: 3}
+  - {fileID: 21300000, guid: 43e02ace3c3d41141b6a2bca099ecd24, type: 3}
+  - {fileID: 21300000, guid: 205ca739cdcdba64f81eb80b8960e4c6, type: 3}
+  ladderSprites:
+  - {fileID: 21300000, guid: 3c3db02dd9fe5be47baadb3dfa8ae361, type: 3}
+  - {fileID: 21300000, guid: 881a342c578a8b1439084eef04de0644, type: 3}
+  - {fileID: 21300000, guid: a7a85cd7f0b7b754092e5d75ef677878, type: 3}
+  dashSprites:
+  - {fileID: 21300000, guid: 54e329f4bb3b5954da46ee86f1cfdb12, type: 3}
+  - {fileID: 21300000, guid: 397d33c80bb473c4b8e373acd3b05c18, type: 3}
+  - {fileID: 21300000, guid: 9619d832fd1f93e44920fc881d33b5ba, type: 3}
+  wallClimbSprites:
+  - {fileID: 21300000, guid: 648c85400c6a11d4299b0a9bab196a92, type: 3}
+  - {fileID: 21300000, guid: 2cec5650d4dd9504485c7545c452db46, type: 3}
+  - {fileID: 21300000, guid: 873ce929728745f48ada7cfa975f6274, type: 3}
+  fallSprite: {fileID: 21300000, guid: 205ca739cdcdba64f81eb80b8960e4c6, type: 3}
   dashAvailable: 0
   numberOfDashes: 0
-  dashingPower: 8
+  dashingPower: 10
   dashingDuration: 0.3
   dashCooldown: 1.5
   barrelJumpAvailable: 0

@@ -19,9 +19,11 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     public Sprite[] runSprites;
-    public Sprite climbSprite;
-    public Sprite jumpSprite;
-    public Sprite dashSprite;
+    public Sprite[] jumpSprites;
+    public Sprite[] ladderSprites;
+    public Sprite[] dashSprites;
+    public Sprite[] wallClimbSprites;
+    public Sprite fallSprite;
     private int spriteIndex;
 
     //Dash Fields
@@ -40,7 +42,8 @@ public class Player : MonoBehaviour
     public float barrelJumpModifier = 2.0f;
     
     //Wall Climb Fields
-    private bool onWall;
+    private bool onLeftWall;
+    private bool onRightWall;
 
     //Mud Fields
     private bool muddy;
@@ -72,19 +75,57 @@ public class Player : MonoBehaviour
 
     private void AnimateSprite()
     {
-        if (climbing)
+        if (climbing && !onLeftWall && !onRightWall)
         {
-            spriteRenderer.sprite = climbSprite;
-        }
-        else if (!grounded  && !onWall)
-        {
-            spriteRenderer.sprite = jumpSprite;
+            //Debug.Log("ladder anim");
+            spriteIndex++;
+
+            if(spriteIndex >= ladderSprites.Length)
+            {
+                spriteIndex = 0;
+            }
+
+            spriteRenderer.sprite = ladderSprites[spriteIndex];
+        } else if (onLeftWall) {
+            //Debug.Log("left anim");
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            spriteIndex++;
+
+            if(spriteIndex >= wallClimbSprites.Length)
+            {
+                spriteIndex = 0;
+            }
+
+            spriteRenderer.sprite = wallClimbSprites[spriteIndex];
+        } else if (onRightWall) {
+            //Debug.Log("right anim");
+            transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            spriteIndex++;
+
+            if(spriteIndex >= wallClimbSprites.Length)
+            {
+                spriteIndex = 0;
+            }
+
+            spriteRenderer.sprite = wallClimbSprites[spriteIndex];
         }
         else if (dashing)
         {
-            //enable this line of code once we implement a dash sprite
-            //spriteRenderer.sprite = dashSprite;
-        }
+            spriteIndex++;
+
+            if(spriteIndex >= dashSprites.Length)
+            {
+                spriteIndex = 0;
+            }
+
+            spriteRenderer.sprite = dashSprites[spriteIndex];
+
+        } //Falling
+        else if (!grounded  && !onLeftWall && !onRightWall)
+        {
+            //Debug.Log("falling anim");
+            spriteRenderer.sprite = fallSprite;
+        } //Moving
         else if (direction.x != 0f)
         {
             spriteIndex++;
@@ -96,11 +137,17 @@ public class Player : MonoBehaviour
 
             spriteRenderer.sprite = runSprites[spriteIndex];
         }
+        //If not moving and not using any other sprite, go to default sprite
+        else if (direction.x == 0f) {
+            //Debug.Log("idle anim");
+            spriteRenderer.sprite = runSprites[1];
+        }
     }
 
     private void CheckCollision() {
 
-        onWall = false;
+        onLeftWall = false;
+        onRightWall = false;
         grounded = false;
         climbing = false;
         muddy = false;
@@ -149,24 +196,31 @@ public class Player : MonoBehaviour
 
 
         //Wall collider size & position (A small rectangle centered on the player collider, width slightly wider than player, height about half of player)
-        Vector2 playerSides = new Vector2 (transform.position.x, transform.position.y + 0.5f);
+        Vector2 playerLeft = new Vector2 (transform.position.x - 0.5f, transform.position.y);
+        Vector2 playerRight = new Vector2 (transform.position.x + 0.5f, transform.position.y);
         Vector2 sizeWall = collider.bounds.size;
-        sizeWall.x += 0.1f;
+        sizeWall.x -= 0.8f;
         sizeWall.y -= 0.05f;
-        Collider2D isWall = Physics2D.OverlapBox(playerSides, sizeWall, 0f, LayerMask.GetMask("Wall"));
+        Collider2D isWallLeft = Physics2D.OverlapBox(playerLeft, sizeWall, 0f, LayerMask.GetMask("Wall"));
+        Collider2D isWallRight = Physics2D.OverlapBox(playerRight, sizeWall, 0f, LayerMask.GetMask("Wall"));
 
         //If the player is in contact with at least one object with a "ground" layer on the top
-        if (isWall != null && Input.GetKey(KeyCode.LeftControl)) {
+        if (isWallLeft != null && Input.GetKey(KeyCode.LeftControl)) {
             //Debug.Log("Touching Wall");
-            climbing = true; 
+            climbing = true;
+            onLeftWall = true;
+        } else if (isWallRight != null && Input.GetKey(KeyCode.LeftControl)) {
+            climbing = true;
+            onRightWall = true;
         }
 
         //Check all four directions for mud
         Collider2D isMuddyBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
         Collider2D isMuddyTop = Physics2D.OverlapBox(playerTop, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
-        Collider2D isMuddySides = Physics2D.OverlapBox(playerSides, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
+        Collider2D isMuddyLeft = Physics2D.OverlapBox(playerLeft, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
+        Collider2D isMuddyRight = Physics2D.OverlapBox(playerRight, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
 
-        if (isMuddyBottom != null || isMuddyTop != null || isMuddySides != null) {
+        if (isMuddyBottom != null || isMuddyTop != null || isMuddyLeft != null || isMuddyRight != null) {
             //Debug.Log("Touching mud");
             muddy = true;
             moveSpeedModified = moveSpeedDefault * 0.7f;
@@ -181,11 +235,12 @@ public class Player : MonoBehaviour
             FindObjectOfType<GameManager>().LevelFail();
          }
 
-        Collider2D waterBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Water"));
-        Collider2D waterTop = Physics2D.OverlapBox(playerTop, sizeGrounded, 0f, LayerMask.GetMask("Water"));
-        Collider2D waterSides = Physics2D.OverlapBox(playerSides, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+        Collider2D iswaterBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+        Collider2D iswaterTop = Physics2D.OverlapBox(playerTop, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+        Collider2D iswaterLeft = Physics2D.OverlapBox(playerLeft, sizeGrounded, 0f, LayerMask.GetMask("Water"));
+        Collider2D iswaterRight = Physics2D.OverlapBox(playerRight, sizeGrounded, 0f, LayerMask.GetMask("Water"));
 
-        if (waterBottom != null || waterTop != null || waterSides != null) {
+        if (iswaterBottom != null || iswaterTop != null || iswaterLeft != null || iswaterLeft != null) {
             enabled = false;
             FindObjectOfType<GameManager>().LevelFail();
         }
@@ -196,10 +251,11 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
-        Debug.Log("Grounded" + grounded);
-        //Debug.Log("onWall" + onWall);
+        //Debug.Log("Grounded" + grounded);
+        //Debug.Log("onLeftWall" + onLeftWall);
+        //Debug.Log("onRightWall" + onRightWall);
         //Debug.Log("climbing" + climbing);
-        Debug.Log("Mud" + muddy);
+        //Debug.Log("Mud" + muddy);
 
         //Input Managing 2.0
         input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
@@ -221,6 +277,7 @@ public class Player : MonoBehaviour
         else if (grounded && Input.GetButtonDown(buttonName: "Jump") && !muddy)
         {
             direction = Vector2.up * jumpStrength;
+            StartCoroutine(animateJump());
         }
         else if (grounded && Input.GetKeyDown(KeyCode.C) && holdingBarrel)
         {
@@ -249,11 +306,11 @@ public class Player : MonoBehaviour
         }
 
         //Rotate Player to face right direction
-        if (direction.x > 0f)
+        if (direction.x < 0f && !climbing)
         {
             transform.eulerAngles = Vector3.zero;
         }
-        else if (direction.x < 0f)
+        else if (direction.x > 0f && !climbing)
         {
             transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
@@ -267,7 +324,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
 
         
         rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime);
@@ -328,6 +385,15 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         numberOfDashes++;
         
+    }
+
+    private IEnumerator animateJump() {
+
+        for (int i = 0; i < jumpSprites.Length; i++) {
+                spriteRenderer.sprite = jumpSprites[i];
+                yield return new WaitForSeconds(0.1f);
+        }
+
     }
 
     private void useDash()
