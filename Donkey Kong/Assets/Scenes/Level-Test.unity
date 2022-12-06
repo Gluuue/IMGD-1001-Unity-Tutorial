@@ -2235,10 +2235,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6581522050736422427, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 19639576b09484449b317a985d68d033, type: 3}
     - target: {fileID: 8243105246072980341, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
+      propertyPath: idleSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 19639576b09484449b317a985d68d033, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}
 --- !u!1001 &800912787

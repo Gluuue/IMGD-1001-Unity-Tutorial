@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public Sprite[] dashSprites;
     public Sprite[] wallClimbSprites;
     public Sprite fallSprite;
+    public Sprite idleSprite;
     private int spriteIndex;
 
     //Dash Fields
@@ -140,7 +141,7 @@ public class Player : MonoBehaviour
         //If not moving and not using any other sprite, go to default sprite
         else if (direction.x == 0f) {
             //Debug.Log("idle anim");
-            spriteRenderer.sprite = runSprites[1];
+            spriteRenderer.sprite = idleSprite;
         }
     }
 
@@ -204,16 +205,6 @@ public class Player : MonoBehaviour
         Collider2D isWallLeft = Physics2D.OverlapBox(playerLeft, sizeWall, 0f, LayerMask.GetMask("Wall"));
         Collider2D isWallRight = Physics2D.OverlapBox(playerRight, sizeWall, 0f, LayerMask.GetMask("Wall"));
 
-        //If the player is in contact with at least one object with a "ground" layer on the top
-        if (isWallLeft != null && Input.GetKey(KeyCode.LeftControl)) {
-            //Debug.Log("Touching Wall");
-            climbing = true;
-            onLeftWall = true;
-        } else if (isWallRight != null && Input.GetKey(KeyCode.LeftControl)) {
-            climbing = true;
-            onRightWall = true;
-        }
-
         //Check all four directions for mud
         Collider2D isMuddyBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
         Collider2D isMuddyTop = Physics2D.OverlapBox(playerTop, sizeGrounded, 0f, LayerMask.GetMask("Mud"));
@@ -228,6 +219,17 @@ public class Player : MonoBehaviour
             moveSpeedModified = moveSpeedDefault;
         }
 
+        //If the player is in contact with at least one object with a "ground" layer on the top
+        if (isWallLeft != null && !isMuddyLeft && Input.GetKey(KeyCode.LeftControl)) {
+            //Debug.Log("Touching Wall");
+            climbing = true;
+            onLeftWall = true;
+        } else if (isWallRight != null && !isMuddyRight && Input.GetKey(KeyCode.LeftControl)) {
+            climbing = true;
+            onRightWall = true;
+        }
+
+        
         //Chcecking only the top/sides for spikes. Don't want the bottom to kill players.
         Collider2D spikesBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Spikes"));
          if (spikesBottom != null) {
@@ -333,6 +335,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log(collision.gameObject);
         if (collision.gameObject.CompareTag("Objective")) {
 
             enabled = false;
@@ -350,11 +353,21 @@ public class Player : MonoBehaviour
             }
         } else if (collision.gameObject.CompareTag("Upgrade")) {
 
-        } else if (collision.gameObject.CompareTag("Projectile")) {
+        } 
+        /*
+        else if (collision.gameObject.CompareTag("Projectile")) {
             enabled = false;
             FindObjectOfType<GameManager>().LevelFail();
         }
-        
+        */
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        Debug.Log(collision.gameObject);
+        if (collision.gameObject.CompareTag("Projectile")) {
+            enabled = false;
+            FindObjectOfType<GameManager>().LevelFail();
+        }
     }
 
 
