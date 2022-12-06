@@ -17,5 +17,8 @@ public class Barrel : MonoBehaviour
         {
             rigidbody.AddForce(collision.transform.right * speed, ForceMode2D.Impulse);
         }
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Water")){
+            Destroy(this.gameObject);
+        }
     }
 }

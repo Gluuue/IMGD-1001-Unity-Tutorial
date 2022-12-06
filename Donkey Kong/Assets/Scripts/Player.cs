@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
         Collider2D isWall = Physics2D.OverlapBox(playerSides, sizeWall, 0f, LayerMask.GetMask("Wall"));
 
         //If the player is in contact with at least one object with a "ground" layer on the top
-        if (isWall != null && Input.GetKey(KeyCode.L)) {
+        if (isWall != null && Input.GetKey(KeyCode.LeftControl)) {
             //Debug.Log("Touching Wall");
             climbing = true; 
         }
