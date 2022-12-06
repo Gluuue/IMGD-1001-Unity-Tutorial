@@ -20,7 +20,7 @@ public class LivesDisplay : MonoBehaviour
 
     //variables;
 
-    public int lives;// = GameManager.instance.lives;
+    private int lives;// = GameManager.instance.lives;
     public int score;
     public int highscore;
     public float dashCount;
@@ -49,10 +49,11 @@ public class LivesDisplay : MonoBehaviour
     }
     void Update()
     {
-        //lives = GameManager.instance.lives;
-        //score = GameManager.instance.score;
-        //highscore = ScoreManager.instance.highscore;
-        //dashCount = Player.instance.numberOfDashes;
+        lives = GameManager.instance.lives;
+        score = GameManager.instance.score;
+        highscore = ScoreManager.instance.highscore;
+        //highscore = GameManager.instance.highscore;
+        dashCount = Player.instance.numberOfDashes;
 
         //string livesS = lives.ToString;
         //Update Text

@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviour
     }
         private void Start()
     {
-        
+        highscore = 0;
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(2);
         //GameManager.instance.LoadLevelPub(1);

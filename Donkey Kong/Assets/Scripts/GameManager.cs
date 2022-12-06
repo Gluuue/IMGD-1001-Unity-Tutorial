@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public int lives;
+    public int startLevel;
+    public int startLives;
     public int score;
     public int highscore;
     private int level;
@@ -14,14 +16,16 @@ public class GameManager : MonoBehaviour
     {
         //count = 0;
         
-        highscore = 0;
+        
         DontDestroyOnLoad(gameObject);
       
     }
 
     private void Start()
     {
-              
+        //GameManager.instance.highscore = 0;
+        
+
         if (instance != null)
         {
             Destroy(gameObject);
@@ -30,6 +34,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            GameManager.instance.highscore = 0;
         }
         
         //DontDestroyOnLoad(gameObject);
@@ -49,12 +54,16 @@ public class GameManager : MonoBehaviour
         LoadLevel(1);
     }
 
+    public void ButtonQuit() {
+        Application.Quit();
+    }
+
     private void NewGame()
     {
-        lives = 3;
-        score = 0;
+        GameManager.instance.lives = 3;
+        GameManager.instance.score = 0;
 
-        LoadLevel(3);
+        LoadLevel(startLevel);
 
     }
 
@@ -85,8 +94,28 @@ public class GameManager : MonoBehaviour
 
     public void LevelComplete()
     {
+        //Points for completion
         score += 1000;
 
+        //Points for extra lives
+        for(int i = lives; i > 0; i--) {
+            score += 500;
+        }
+
+        //Check Highscore
+        ScoreManager.instance.checkNewScore(score);
+            if(highscore < score) {
+                highscore = score;
+            }
+            score = 0;
+
+        
+        //Return to main menu
+        LoadLevel(2);  
+
+
+        //old level loop system
+        /*
         int nextLevel = level + 1;
 
         if (nextLevel < SceneManager.sceneCountInBuildSettings)
@@ -96,22 +125,28 @@ public class GameManager : MonoBehaviour
         {
             LoadLevel(3);
         }
+        */
+        //end
         
     }
 
     public void LevelFail()
     {
-        lives--;
+        lives = lives - 1;
 
         if (lives <= 0)
         {
-            lives = 3;
+            lives = 0;
             ScoreManager.instance.checkNewScore(score);
+            if(highscore < score) {
+                highscore = score;
+            }
             score = 0;
+            //Return to main menu
             LoadLevel(2);
         } else
         {
-            LoadLevel(level);
+            LoadLevel(startLevel);
         }
     }
 
