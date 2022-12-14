@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);    
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         //Should no longer need this array
