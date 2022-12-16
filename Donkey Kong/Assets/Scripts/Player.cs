@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -49,6 +50,11 @@ public class Player : MonoBehaviour
     //Mud Fields
     private bool muddy;
     
+    //Audio Fields
+    GameObject soundEffectsSource;
+    public AudioClip jumpSFX;
+
+
 
 
     //Input Management
@@ -63,6 +69,8 @@ public class Player : MonoBehaviour
         //results = new Collider2D[4];
         spriteRenderer = GetComponent<SpriteRenderer>();
         instance = this;
+
+        soundEffectsSource = GameObject.FindGameObjectWithTag("Sound");
     }
 
     private void OnEnable()
@@ -138,6 +146,7 @@ public class Player : MonoBehaviour
             }
 
             spriteRenderer.sprite = runSprites[spriteIndex];
+
         }
         //If not moving and not using any other sprite, go to default sprite
         else if (direction.x == 0f) {
@@ -254,6 +263,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
+
         //Debug.Log("Grounded" + grounded);
         //Debug.Log("onLeftWall" + onLeftWall);
         //Debug.Log("onRightWall" + onRightWall);
@@ -279,6 +289,10 @@ public class Player : MonoBehaviour
         }
         else if (grounded && Input.GetButtonDown(buttonName: "Jump") && !muddy)
         {
+            if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(jumpSFX);
+            }
+
             direction = Vector2.up * jumpStrength;
             StartCoroutine(animateJump());
         }
@@ -410,6 +424,7 @@ public class Player : MonoBehaviour
         }
 
     }
+
 
     private void useDash()
     {

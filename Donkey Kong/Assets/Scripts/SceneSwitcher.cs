@@ -15,3 +15,5 @@ public class SceneSwitcher : MonoBehaviour
           player.transform.position = new Vector2(xValue,yValue);
     }
 }
+
+
