@@ -167,7 +167,7 @@ MonoBehaviour:
   dashCooldown: 1.5
   barrelJumpAvailable: 0
   barrelJumpModifier: 2
-  jumpSFX: {fileID: 8300000, guid: 59ab6ece7eaa0b543b67ce062b82a06a, type: 3}
+  jumpSFX: {fileID: 8300000, guid: de98cc99e8d35ce44a99787bd839ae06, type: 3}
   dashSFX: {fileID: 8300000, guid: 4474735a28b0d194d830a7ef3ec1ca7a, type: 3}
   barrelJumpSFX: {fileID: 8300000, guid: 5f10487a36a4c30488f6471c1332b67c, type: 3}
   deathSFX: {fileID: 8300000, guid: fd3bbafd4b9382b4498a79bdb28f2456, type: 3}

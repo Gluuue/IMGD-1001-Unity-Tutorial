@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void NewGame()
     {
-        GameManager.instance.lives = 3;
+        GameManager.instance.lives = 10;
         GameManager.instance.score = 0;
 
         LoadLevel(startLevel);

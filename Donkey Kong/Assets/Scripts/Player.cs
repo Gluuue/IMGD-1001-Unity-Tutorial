@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         instance = this;
 
-        soundEffectsSource = GameObject.FindGameObjectWithTag("Sound");
+        
  
     }
 
@@ -278,6 +278,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
+        soundEffectsSource = GameObject.FindGameObjectWithTag("Sound");
         currentLevel = SceneManager.GetActiveScene().buildIndex;
 
         //Debug.Log("Grounded" + grounded);
