@@ -13,12 +13,19 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public Player player;
 
+    //Audio Fields
+    GameObject soundEffectsSource;
+    public AudioClip buttonSFX;
+
+
+
     private void Awake()
     {
         //count = 0;
         
         
         DontDestroyOnLoad(gameObject);
+        //GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayMusic();
       
     }
 
@@ -42,8 +49,16 @@ public class GameManager : MonoBehaviour
         //LoadLevel(1);
     }
 
+    private void Update() {
+        soundEffectsSource = GameObject.FindGameObjectWithTag("Sound");
+    }
+
+
     public void ButtonStart()
     {
+        if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(buttonSFX);
+        }
         NewGame();
     }
 
@@ -56,6 +71,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void ButtonQuit() {
+        if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(buttonSFX);
+        }
         Application.Quit();
     }
 

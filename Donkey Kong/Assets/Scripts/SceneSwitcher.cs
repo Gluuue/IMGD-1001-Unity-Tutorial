@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 public class SceneSwitcher : MonoBehaviour
 {
    public int SceneNumber;
-   public int xValue;
-   public int yValue;
+   public float xValue;
+   public float yValue;
    private void OnCollisionEnter2D(Collision2D collision) {
           SceneManager.LoadScene(SceneNumber);
           GameObject player = collision.gameObject;

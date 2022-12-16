@@ -9,6 +9,7 @@ TagManager:
   - Upgrade
   - Projectile
   - Sound
+  - Music
   layers:
   - Default
   - TransparentFX

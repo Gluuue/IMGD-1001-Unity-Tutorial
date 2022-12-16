@@ -57,6 +57,9 @@ public class Player : MonoBehaviour
     //Audio Fields
     GameObject soundEffectsSource;
     public AudioClip jumpSFX;
+    public AudioClip dashSFX;
+    public AudioClip barrelJumpSFX;
+    public AudioClip deathSFX;
 
 
 
@@ -249,6 +252,9 @@ public class Player : MonoBehaviour
         //Chcecking only the top/sides for spikes. Don't want the bottom to kill players.
         Collider2D spikesBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Spikes"));
          if (spikesBottom != null) {
+            if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(deathSFX);
+            }
             //enabled = false;
             FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
          }
@@ -259,6 +265,9 @@ public class Player : MonoBehaviour
         Collider2D iswaterRight = Physics2D.OverlapBox(playerRight, sizeGrounded, 0f, LayerMask.GetMask("Water"));
 
         if (iswaterBottom != null || iswaterTop != null || iswaterLeft != null || iswaterLeft != null) {
+            if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(deathSFX);
+            }
             //enabled = false;
             FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
         }
@@ -306,6 +315,9 @@ public class Player : MonoBehaviour
         //grounded && (Removed this code so barrel jump can occur in air)
         else if (Input.GetKeyDown(KeyCode.C) && holdingBarrel)
         {
+            if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(barrelJumpSFX);
+            }
             direction = Vector2.up * jumpStrength * barrelJumpModifier;
             holdingBarrel = false;
         }
@@ -318,7 +330,10 @@ public class Player : MonoBehaviour
         //Dash Input
         if (Input.GetKeyDown(KeyCode.LeftShift) && numberOfDashes > 0f && input.x != 0 && dashAvailable)
         {
-        StartCoroutine(Dash());
+            if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(dashSFX);
+            }
+            StartCoroutine(Dash());
         }
 
         //Move PLayer based on horizontal input
@@ -372,6 +387,9 @@ public class Player : MonoBehaviour
                 Destroy(collision.gameObject);
             } else {
                 //enabled = false;
+                if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(deathSFX);
+                }
                 FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
             }
         } else if (collision.gameObject.CompareTag("Upgrade")) {
@@ -389,6 +407,9 @@ public class Player : MonoBehaviour
         Debug.Log(collision.gameObject);
         if (collision.gameObject.CompareTag("Projectile")) {
             //enabled = false;
+            if (soundEffectsSource != null) {
+                soundEffectsSource.GetComponent<AudioSource>().PlayOneShot(deathSFX);
+            }
             FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
         }
     }
