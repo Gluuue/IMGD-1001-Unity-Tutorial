@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private int level;
     private int count;
     public static GameManager instance;
+    public Player player;
 
     private void Awake()
     {
@@ -67,12 +68,13 @@ public class GameManager : MonoBehaviour
 
     }
 
-    /*
-    public void LoadLevelPub(int index)
-    {
-        LoadLevel(index);
+    public void LoadFirstLevel() {
+
+        level = 15;
+        LoadScene();
+        Instantiate(this.player, new Vector3(-14, -7, 0), Quaternion.identity);
+
     }
-    */
 
     private void LoadLevel(int index)
     {
@@ -84,7 +86,7 @@ public class GameManager : MonoBehaviour
             camera.cullingMask = 0;
         }
 
-        Invoke(nameof(LoadScene), 1f); 
+        LoadScene();
     }
 
     private void LoadScene()
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void LevelFail()
+    public void LevelFail(int level, Vector2 position, Player player)
     {
         lives = lives - 1;
 
@@ -142,11 +144,15 @@ public class GameManager : MonoBehaviour
                 highscore = score;
             }
             score = 0;
+
+            Destroy(GameObject.FindGameObjectWithTag("Player"));
+
             //Return to main menu
             LoadLevel(2);
         } else
         {
-            LoadLevel(startLevel);
+            //LoadLevel(startLevel);
+            SceneSwitcher.ReloadScene(level, position, player);
         }
     }
 

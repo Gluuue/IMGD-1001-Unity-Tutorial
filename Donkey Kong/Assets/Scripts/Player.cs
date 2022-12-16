@@ -16,6 +16,10 @@ public class Player : MonoBehaviour
     public float moveSpeedDefault = 3.0f;
     private float moveSpeedModified;
     public float jumpStrength = 1f;
+
+    //Player Respawn Fields
+    private int currentLevel;
+    private static Vector2 currentPos; 
     
 
     private SpriteRenderer spriteRenderer;
@@ -71,7 +75,9 @@ public class Player : MonoBehaviour
         instance = this;
 
         soundEffectsSource = GameObject.FindGameObjectWithTag("Sound");
+ 
     }
+
 
     private void OnEnable()
     {
@@ -243,8 +249,8 @@ public class Player : MonoBehaviour
         //Chcecking only the top/sides for spikes. Don't want the bottom to kill players.
         Collider2D spikesBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Spikes"));
          if (spikesBottom != null) {
-            enabled = false;
-            FindObjectOfType<GameManager>().LevelFail();
+            //enabled = false;
+            FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
          }
 
         Collider2D iswaterBottom = Physics2D.OverlapBox(playerBottom, sizeGrounded, 0f, LayerMask.GetMask("Water"));
@@ -253,8 +259,8 @@ public class Player : MonoBehaviour
         Collider2D iswaterRight = Physics2D.OverlapBox(playerRight, sizeGrounded, 0f, LayerMask.GetMask("Water"));
 
         if (iswaterBottom != null || iswaterTop != null || iswaterLeft != null || iswaterLeft != null) {
-            enabled = false;
-            FindObjectOfType<GameManager>().LevelFail();
+            //enabled = false;
+            FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
         }
 
     }
@@ -263,6 +269,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
 
         //Debug.Log("Grounded" + grounded);
         //Debug.Log("onLeftWall" + onLeftWall);
@@ -364,8 +371,8 @@ public class Player : MonoBehaviour
                 holdingBarrel = true;
                 Destroy(collision.gameObject);
             } else {
-                enabled = false;
-                FindObjectOfType<GameManager>().LevelFail();
+                //enabled = false;
+                FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
             }
         } else if (collision.gameObject.CompareTag("Upgrade")) {
 
@@ -381,8 +388,8 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         Debug.Log(collision.gameObject);
         if (collision.gameObject.CompareTag("Projectile")) {
-            enabled = false;
-            FindObjectOfType<GameManager>().LevelFail();
+            //enabled = false;
+            FindObjectOfType<GameManager>().LevelFail(currentLevel, currentPos, instance);
         }
     }
 
@@ -478,6 +485,10 @@ public class Player : MonoBehaviour
 
     public float inputDirection() {
         return direction.x;
+    }
+
+    public static void updateCurrentPosition(float x, float y) {
+        currentPos = new Vector2(x, y);
     }
 
 

@@ -836,6 +836,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water
       objectReference: {fileID: 0}
+    - target: {fileID: 4446600466289771293, guid: edf89618078924345b3b6c16690f5fc2, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 3.4922853
+      objectReference: {fileID: 0}
     - target: {fileID: 8279968350838492065, guid: edf89618078924345b3b6c16690f5fc2, type: 3}
       propertyPath: m_Size.x
       value: 3.4922853

@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 0
-  startLevel: 1
+  startLevel: 14
   startLives: 3
   score: 0
   highscore: 0
+  player: {fileID: 9033730185576839910, guid: a1de0133fc9197b4aa32bf070c08ba6c, type: 3}

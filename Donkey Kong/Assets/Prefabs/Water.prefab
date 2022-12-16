@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3088740876409257903, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_Name
-      value: Water
+      value: Water (1)
       objectReference: {fileID: 0}
     - target: {fileID: 3088740876409257903, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_Layer
@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3396469297917324871, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_Offset.y
-      value: 0
+      value: -0.24
       objectReference: {fileID: 0}
     - target: {fileID: 3396469297917324871, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
@@ -37,11 +37,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3728709312087376262, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -6.8391476
       objectReference: {fileID: 0}
     - target: {fileID: 3728709312087376262, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -7.6474066
       objectReference: {fileID: 0}
     - target: {fileID: 3728709312087376262, guid: 89f7023b26f602049a4acc3101f9e1f1, type: 3}
       propertyPath: m_LocalPosition.z
