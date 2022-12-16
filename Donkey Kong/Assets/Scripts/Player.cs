@@ -282,7 +282,8 @@ public class Player : MonoBehaviour
             direction = Vector2.up * jumpStrength;
             StartCoroutine(animateJump());
         }
-        else if (grounded && Input.GetKeyDown(KeyCode.C) && holdingBarrel)
+        //grounded && (Removed this code so barrel jump can occur in air)
+        else if (Input.GetKeyDown(KeyCode.C) && holdingBarrel)
         {
             direction = Vector2.up * jumpStrength * barrelJumpModifier;
             holdingBarrel = false;

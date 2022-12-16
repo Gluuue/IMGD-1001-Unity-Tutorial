@@ -23,4 +23,28 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test Switch.unity
     guid: e3c4e9d4bdb4e1048ae14425ac87cb47
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L1.unity
+    guid: 1de278b043d38314fa4a75bffbcf36fc
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L2.unity
+    guid: 99760e77884f86642a9c73a25d1b41f4
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L3.unity
+    guid: a35fd4211a4834f48a948a5a6ba3f657
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L4.unity
+    guid: 355238bcf9c23014694921e20620612f
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L5.unity
+    guid: c9fadd12786855840a255a043f94e6da
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L6.unity
+    guid: ffe9ecbb2b4ca7543bb30e73f1d55dc6
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L7.unity
+    guid: 748cacee8842a4841918feb0dbb4d334
+  - enabled: 1
+    path: Assets/Scenes/Zone-3-L8.unity
+    guid: f9173fbbb120ea14ab2cbb825a37ce89
   m_configObjects: {}

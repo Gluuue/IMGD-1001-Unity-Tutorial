@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1534042139306563812, guid: d37071466f8a11c4a9f21b31faa6142e, type: 3}
+      propertyPath: m_AutoTiling
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d37071466f8a11c4a9f21b31faa6142e, type: 3}
 --- !u!1 &1575279313393559096 stripped
@@ -79,3 +83,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneNumber: 3
+  xValue: 0
+  yValue: 0
